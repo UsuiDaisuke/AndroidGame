@@ -1,13 +1,6 @@
 package com.example.myapplication;
 
 
-import android.content.SharedPreferences;
-import android.graphics.Matrix;
-import android.util.Log;
-import android.view.SoundEffectConstants;
-import android.hardware.Sensor;
-
-
 /*
 * App
 * リソース管理などのシステム面全般
@@ -26,9 +19,9 @@ public class App
     // 諸々の初期化は終わっているので、ここでロードをかけてもOK
     public void Start()
     {
-        soundManager.PlayBGM("bgm.mp3");
-        se1 = soundManager.LoadSE("se1.mp3");
-        se2 = soundManager.LoadSE("se2.mp3");
+        soundManager.PlayBGM("Sounds/bgm.mp3");
+        se1 = soundManager.LoadSE("Sounds/se1.mp3");
+        se2 = soundManager.LoadSE("Sounds/se2.mp3");
     }
 
 
@@ -45,27 +38,6 @@ public class App
         if(p==null){ return true; }
 
 
-
-        /*
-        if(p.OnDown()) // 押された瞬間
-        {
-            vp.x = p.GetDownPos().x;
-            vp.y = p.GetDownPos().y;
-            vm.Clear();
-            soundManager.PlaySE(se1);
-        }
-
-        if(p.OnFlick()) // 離された＆それがフリックと判定された
-        {
-            vm = p.GetDtoU();
-        }
-
-        if(p.OnUp())
-        {
-            soundManager.PlaySE(se2);
-            Log.d("touch", "OnUP!!!!!");
-        }
-        */
 
         // 必ずゲーム更新の後に行う事
         touchManager.Update();
@@ -85,9 +57,9 @@ public class App
     // ここが安定して動いているとは思わないでください。
     public void Draw()
     {
-        imageManage.Draw("ball.png", vp.x, vp.y);
-        imageManage.Draw("ball.png", 100, 100, 45);
-        imageManage.Draw("ball.png", 200, 100, 2,2,0);
+        imageManage.Draw("Sprites/ball.png", vp.x, vp.y);
+        imageManage.Draw("Sprites/ball.png", 100, 100, 45);
+        imageManage.Draw("Sprites/ball.png", 200, 100, 2,2,0);
     }
 
     // ホームボタンなどを押して裏側へ回った時
@@ -99,7 +71,7 @@ public class App
     // 再度アクティブになった時
     public void Resume()
     {
-        soundManager.PlayBGM("bgm.mp3");
+        soundManager.PlayBGM("Sounds/bgm.mp3");
     }
 
     // <--------------------------------------------------ゲームの実装
