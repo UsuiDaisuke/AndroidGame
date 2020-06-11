@@ -9,7 +9,7 @@ package com.example.myapplication;
 */
 public class App
 {
-
+    GameObject Player = new Ball();
     // ゲームの実装------------------------------------------------>
     // 特殊な事をしない限りはこの間を編集するだけのはず
     int se1 = 0;
@@ -22,6 +22,8 @@ public class App
         soundManager.PlayBGM("Sounds/bgm.mp3");
         se1 = soundManager.LoadSE("Sounds/se1.mp3");
         se2 = soundManager.LoadSE("Sounds/se2.mp3");
+
+        Player.Init();
     }
 
 
@@ -31,7 +33,7 @@ public class App
     public boolean Update()
     {
         // ゲームの更新
-        vp.Add(vm);
+        Player.Update();
 
         // タッチの処理
         Pointer p = touchManager.GetTouch(); // ここでnullが帰る場合はタッチされていない
@@ -46,8 +48,7 @@ public class App
 
     public void SetSensorRotate(float SensorX, float SensorY)
     {
-        vm.x = -SensorX * 2;
-        vm.y = SensorY * 2;
+        Player.SetMove(-SensorX * 2, SensorY * 2);
     }
 
     // Androidから再描画命令を受けた時
@@ -57,9 +58,7 @@ public class App
     // ここが安定して動いているとは思わないでください。
     public void Draw()
     {
-        imageManage.Draw("Sprites/ball.png", vp.x, vp.y);
-        imageManage.Draw("Sprites/ball.png", 100, 100, 45);
-        imageManage.Draw("Sprites/ball.png", 200, 100, 2,2,0);
+        Player.Draw();
     }
 
     // ホームボタンなどを押して裏側へ回った時

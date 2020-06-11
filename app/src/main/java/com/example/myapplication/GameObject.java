@@ -5,14 +5,14 @@ import android.graphics.Rect;
 public class GameObject {
     //====================変数====================
     enum TYPE_ID{NONE, GROUND, PLAYER, ENEMY};
-    protected  TYPE_ID type = TYPE_ID.NONE;
+    protected  TYPE_ID m_type = TYPE_ID.NONE;
     protected boolean m_alive = true;
 
-    protected int m_posX;
-    protected int m_posY;
+    protected float m_posX;
+    protected float m_posY;
 
-    protected int m_moveX;
-    protected int m_moveY;
+    protected float m_moveX;
+    protected float m_moveY;
 
     protected Rect m_hitArea = new Rect();
     protected String m_imageName = "Sprites/ball.png";
@@ -24,7 +24,7 @@ public class GameObject {
         m_posY = y;
     }
 
-    public void SetMove(int x, int y)
+    public void SetMove(float x, float y)
     {
         m_moveX = x;
         m_moveY = y;
