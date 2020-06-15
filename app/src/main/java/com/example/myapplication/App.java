@@ -48,7 +48,7 @@ public class App
 
     public void SetSensorRotate(float SensorX, float SensorY)
     {
-        Player.SetMove(-SensorX * 2, SensorY * 2);
+        Player.SetMove(-SensorX, SensorY);
     }
 
     // Androidから再描画命令を受けた時
