@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.graphics.Rect;
+
 public class Ball extends GameObject {
 
     private float m_velocityX = 0.0f;
@@ -24,6 +26,76 @@ public class Ball extends GameObject {
         super.Update();
 
         Move();
+    }
+
+    @Override
+    public void CollisionCheck(Rect a_hitArea) {
+        super.CollisionCheck(a_hitArea);
+        Vector2 targetPoint = new Vector2();
+
+        //X座標の基準点
+        if(m_posX < a_hitArea.left)
+        {
+            targetPoint.x = a_hitArea.left;
+        }
+        else if(m_posX > a_hitArea.right)
+        {
+            targetPoint.x = a_hitArea.right;
+        }
+        else
+        {
+            targetPoint.x = m_posX;
+        }
+
+        //Y座標の基準点
+        if(m_posY < a_hitArea.top)
+        {
+            targetPoint.y = a_hitArea.top;
+        }
+        else if(m_posY > a_hitArea.bottom)
+        {
+            targetPoint.y = a_hitArea.bottom;
+        }
+        else
+        {
+            targetPoint.y = m_posY;
+        }
+
+        //当たり判定
+        if (Vector2.Distance(m_posX, m_posY - m_velocityY, targetPoint.x, targetPoint.y) < 64) {
+            if(m_posY < a_hitArea.top)
+            {
+                m_posY -= 4;
+                m_posX -= m_velocityX;
+            }
+            else if(m_posY > a_hitArea.bottom)
+            {
+                m_posY += 4;
+                m_posX -= m_velocityX;
+            }
+            else
+            {
+                m_posX -= m_velocityX;
+                m_velocityX /= -2;
+            }
+        }
+        else if (Vector2.Distance(m_posX - m_velocityX, m_posY, targetPoint.x, targetPoint.y) < 64) {
+            if(m_posX < a_hitArea.left)
+            {
+                m_posX -= 4;
+                m_posY -= m_velocityY;
+            }
+            else if(m_posX > a_hitArea.right)
+            {
+                m_posX += 4;
+                m_posY -= m_velocityY;
+            }
+            else
+            {
+                m_posY -= m_velocityY;
+                m_velocityY /= -2;
+            }
+        }
     }
 
     private void Move()

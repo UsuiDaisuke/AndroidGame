@@ -30,15 +30,31 @@ public class GameObject {
         m_moveY = y;
     }
 
+    public void SetCollisionRect(int right, int bottom)
+    {
+        m_hitArea.left = -right / 2;
+        m_hitArea.top = -bottom / 2;
+        m_hitArea.right = right / 2;
+        m_hitArea.bottom = bottom / 2;
+    }
+
+    public Rect GetHitArea()
+    {
+        Rect hitRect = new Rect();
+
+        hitRect.left = m_hitArea.left + (int)m_posX;
+        hitRect.right = m_hitArea.right + (int)m_posX;
+        hitRect.top = m_hitArea.top + (int)m_posY;
+        hitRect.bottom = m_hitArea.bottom + (int)m_posY;
+
+        return hitRect;
+    }
+
     public void SetImageName(String img)
     {
         m_imageName = img;
     }
 
-    public Rect GetHitArea()
-    {
-        return m_hitArea;
-    }
     //矩形同士当たり判定
     public boolean HitCheck(Rect hit)
     {
@@ -59,4 +75,6 @@ public class GameObject {
     {
         App.Get().ImageMgr().Draw(m_imageName, m_posX, m_posY);
     }
+
+    public void CollisionCheck(Rect a_hitArea){}
 }

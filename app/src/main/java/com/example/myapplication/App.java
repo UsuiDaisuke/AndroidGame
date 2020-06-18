@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 
+import android.graphics.Rect;
+
 /*
 * App
 * リソース管理などのシステム面全般
@@ -10,6 +12,7 @@ package com.example.myapplication;
 public class App
 {
     GameObject Player = new Ball();
+    GameObject Wall = new GameObject();
     // ゲームの実装------------------------------------------------>
     // 特殊な事をしない限りはこの間を編集するだけのはず
     int se1 = 0;
@@ -24,6 +27,10 @@ public class App
         se2 = soundManager.LoadSE("Sounds/se2.mp3");
 
         Player.Init();
+        Wall.Init();
+        Wall.SetImageName("Sprites/Wall.png");
+        Wall.SetPos(256, 256);
+        Wall.SetCollisionRect(128, 128);
     }
 
 
@@ -34,6 +41,7 @@ public class App
     {
         // ゲームの更新
         Player.Update();
+        Player.CollisionCheck(Wall.GetHitArea());
 
         // タッチの処理
         Pointer p = touchManager.GetTouch(); // ここでnullが帰る場合はタッチされていない
@@ -59,6 +67,8 @@ public class App
     public void Draw()
     {
         Player.Draw();
+
+        Wall.Draw();
     }
 
     // ホームボタンなどを押して裏側へ回った時
