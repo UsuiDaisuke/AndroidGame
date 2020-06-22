@@ -12,7 +12,7 @@ import android.graphics.Rect;
 public class App
 {
     GameObject Player = new Ball();
-    GameObject Wall = new GameObject();
+    StageObject Stage = new StageObject();
     // ゲームの実装------------------------------------------------>
     // 特殊な事をしない限りはこの間を編集するだけのはず
     int se1 = 0;
@@ -27,10 +27,7 @@ public class App
         se2 = soundManager.LoadSE("Sounds/se2.mp3");
 
         Player.Init();
-        Wall.Init();
-        Wall.SetImageName("Sprites/Wall.png");
-        Wall.SetPos(256, 256);
-        Wall.SetCollisionRect(128, 128);
+        Stage.Init();
     }
 
 
@@ -41,7 +38,11 @@ public class App
     {
         // ゲームの更新
         Player.Update();
-        Player.CollisionCheck(Wall.GetHitArea());
+
+        for(Rect b: Stage.GetCollisionList())
+        {
+            Player.CollisionCheck(b);
+        }
 
         // タッチの処理
         Pointer p = touchManager.GetTouch(); // ここでnullが帰る場合はタッチされていない
@@ -66,9 +67,9 @@ public class App
     // ここが安定して動いているとは思わないでください。
     public void Draw()
     {
-        Player.Draw();
+        Stage.Draw();
 
-        Wall.Draw();
+        Player.Draw();
     }
 
     // ホームボタンなどを押して裏側へ回った時

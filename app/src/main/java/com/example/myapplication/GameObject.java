@@ -4,7 +4,7 @@ import android.graphics.Rect;
 
 public class GameObject {
     //====================変数====================
-    enum TYPE_ID{NONE, GROUND, PLAYER, ENEMY};
+    enum TYPE_ID{NONE, GROUND, WALL, PLAYER, ENEMY};
     protected  TYPE_ID m_type = TYPE_ID.NONE;
     protected boolean m_alive = true;
 
@@ -18,6 +18,16 @@ public class GameObject {
     protected String m_imageName = "Sprites/ball.png";
 
     //====================値渡し関数====================
+    public void SetTag(TYPE_ID tag)
+    {
+        m_type = tag;
+    }
+
+    public TYPE_ID GetTag()
+    {
+        return m_type;
+    }
+
     public void SetPos(int x, int y)
     {
         m_posX = x;
