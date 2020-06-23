@@ -4,21 +4,20 @@ import android.graphics.Rect;
 
 public class Ball extends GameObject {
 
-    private float m_velocityX = 0.0f;
-    private float m_velocityY = 0.0f;
+    private float m_MoveX = 0.0f;
+    private float m_MoveY = 0.0f;
 
 
     Ball()
     {
         m_type = TYPE_ID.PLAYER;
-        SetPos(300, 500);
+        SetPos(300, 500, 0);
         SetImageName("Sprites/ball.png");
     }
 
     @Override
     public void Init() {
         super.Init();
-
     }
 
     @Override
@@ -34,124 +33,124 @@ public class Ball extends GameObject {
         Vector2 targetPoint = new Vector2();
 
         //X座標の基準点
-        if(m_posX < a_hitArea.left)
+        if(m_Position.x < a_hitArea.left)
         {
             targetPoint.x = a_hitArea.left;
         }
-        else if(m_posX > a_hitArea.right)
+        else if(m_Position.x > a_hitArea.right)
         {
             targetPoint.x = a_hitArea.right;
         }
         else
         {
-            targetPoint.x = m_posX;
+            targetPoint.x = m_Position.x;
         }
 
         //Y座標の基準点
-        if(m_posY < a_hitArea.top)
+        if(m_Position.y < a_hitArea.top)
         {
             targetPoint.y = a_hitArea.top;
         }
-        else if(m_posY > a_hitArea.bottom)
+        else if(m_Position.y > a_hitArea.bottom)
         {
             targetPoint.y = a_hitArea.bottom;
         }
         else
         {
-            targetPoint.y = m_posY;
+            targetPoint.y = m_Position.y;
         }
 
         //当たり判定
-        if (Vector2.Distance(m_posX, m_posY - m_velocityY, targetPoint.x, targetPoint.y) < 64) {
-            if(m_posY < a_hitArea.top)
+        if (Vector2.Distance(m_Position.x, m_Position.y - m_MoveY, targetPoint.x, targetPoint.y) < 64) {
+            if(m_Position.y < a_hitArea.top)
             {
-                m_posY -= 4;
-                m_posX -= m_velocityX;
+                m_Position.y -= 4;
+                m_Position.x -= m_MoveX;
             }
-            else if(m_posY > a_hitArea.bottom)
+            else if(m_Position.y > a_hitArea.bottom)
             {
-                m_posY += 4;
-                m_posX -= m_velocityX;
+                m_Position.y += 4;
+                m_Position.x -= m_MoveX;
             }
             else
             {
-                m_posX -= m_velocityX;
-                m_velocityX /= -2;
+                m_Position.x -= m_MoveX;
+                m_MoveX /= -2;
             }
         }
-        else if (Vector2.Distance(m_posX - m_velocityX, m_posY, targetPoint.x, targetPoint.y) < 64) {
-            if(m_posX < a_hitArea.left)
+        else if (Vector2.Distance(m_Position.x - m_MoveX, m_Position.y, targetPoint.x, targetPoint.y) < 64) {
+            if(m_Position.x < a_hitArea.left)
             {
-                m_posX -= 4;
-                m_posY -= m_velocityY;
+                m_Position.x -= 4;
+                m_Position.y -= m_MoveY;
             }
-            else if(m_posX > a_hitArea.right)
+            else if(m_Position.x > a_hitArea.right)
             {
-                m_posX += 4;
-                m_posY -= m_velocityY;
+                m_Position.x += 4;
+                m_Position.y -= m_MoveY;
             }
             else
             {
-                m_posY -= m_velocityY;
-                m_velocityY /= -2;
+                m_Position.y -= m_MoveY;
+                m_MoveY /= -2;
             }
         }
     }
 
     private void Move()
     {
-        m_moveX /= 5;
-        m_moveY /= 5;
+        m_Velocity.x /= 5;
+        m_Velocity.y /= 5;
 
         //傾きの遊び
-        if(Math.abs(m_moveX) <= 0.1)
+        if(Math.abs(m_Velocity.x) <= 0.1)
         {
-            m_moveX = 0;
+            m_Velocity.x = 0;
         }
-        if(Math.abs(m_moveY) <= 0.1)
+        if(Math.abs(m_Velocity.y) <= 0.1)
         {
-            m_moveY = 0;
+            m_Velocity.y = 0;
         }
 
         //限界移動速度
-        if(Math.abs(m_velocityX) < 10)
+        if(Math.abs(m_MoveX) < 10)
         {
-            m_velocityX += m_moveX;
+            m_MoveX += m_Velocity.x;
         }
-        if(Math.abs(m_velocityY) < 10)
+        if(Math.abs(m_MoveY) < 10)
         {
-            m_velocityY += m_moveY;
+            m_MoveY += m_Velocity.y;
         }
 
         //減速処理
-        if(m_velocityX > 0.1f)
+        if(m_MoveX > 0.1f)
         {
-            m_velocityX -= 0.1f;
+            m_MoveX -= 0.1f;
         }
-        if(m_velocityX < -0.1f)
+        if(m_MoveX < -0.1f)
         {
-            m_velocityX += 0.1f;
+            m_MoveX += 0.1f;
         }
-        if(Math.abs(m_velocityX) < 0.1f)
+        if(Math.abs(m_MoveX) < 0.1f)
         {
-            m_velocityX = 0;
+            m_MoveX = 0;
         }
 
-        if(m_velocityY > 0.1f)
+        if(m_MoveY > 0.1f)
         {
-            m_velocityY -= 0.1f;
+            m_MoveY -= 0.1f;
         }
-        if(m_velocityY < -0.1f)
+        if(m_MoveY < -0.1f)
         {
-            m_velocityY += 0.1f;
+            m_MoveY += 0.1f;
         }
-        if(Math.abs(m_velocityY) < 0.1f)
+        if(Math.abs(m_MoveY) < 0.1f)
         {
-            m_velocityY = 0;
+            m_MoveY = 0;
         }
 
         //移動
-        m_posX += m_velocityX;
-        m_posY += m_velocityY;
+        m_Position.x += m_MoveX;
+        m_Position.y += m_MoveY;
     }
 }

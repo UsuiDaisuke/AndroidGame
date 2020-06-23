@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
             sensorY = event.values[1];
             sensorZ = event.values[2];
 
-            App.Get().SetSensorRotate(sensorX, sensorY);
+            App.Get().SetSensorRotate(sensorX, sensorY, sensorZ);
         }
     }
 

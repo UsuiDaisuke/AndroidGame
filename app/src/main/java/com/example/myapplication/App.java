@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 
 import android.graphics.Rect;
+import android.icu.text.CaseMap;
 
 /*
 * App
@@ -11,12 +12,24 @@ import android.graphics.Rect;
 */
 public class App
 {
-    GameObject Player = new Ball();
-    StageObject Stage = new StageObject();
     // ゲームの実装------------------------------------------------>
     // 特殊な事をしない限りはこの間を編集するだけのはず
     int se1 = 0;
     int se2 = 0;
+
+    float m_SensorX = 0.0f;
+    float m_SensorY = 0.0f;
+    float m_SensorZ = 0.0f;
+
+    //シーン
+    private SceneBase m_nowScene = null;
+    public void ChangeScene(SceneBase scene)
+    {
+        if(scene == null){return;}
+
+        scene.Init();
+        m_nowScene = scene;
+    }
 
     // アプリケーションが開始された時
     // 諸々の初期化は終わっているので、ここでロードをかけてもOK
@@ -26,8 +39,11 @@ public class App
         se1 = soundManager.LoadSE("Sounds/se1.mp3");
         se2 = soundManager.LoadSE("Sounds/se2.mp3");
 
-        Player.Init();
-        Stage.Init();
+        m_nowScene = new Title();
+        if(m_nowScene != null)
+        {
+            m_nowScene.Init();
+        }
     }
 
 
@@ -37,12 +53,12 @@ public class App
     public boolean Update()
     {
         // ゲームの更新
-        Player.Update();
-
-        for(Rect b: Stage.GetCollisionList())
+        if(m_nowScene != null)
         {
-            Player.CollisionCheck(b);
+            m_nowScene.Update();
         }
+
+
 
         // タッチの処理
         Pointer p = touchManager.GetTouch(); // ここでnullが帰る場合はタッチされていない
@@ -55,9 +71,17 @@ public class App
         return true;
     }
 
-    public void SetSensorRotate(float SensorX, float SensorY)
+    public void SetSensorRotate(float SensorX, float SensorY, float SensorZ)
     {
-        Player.SetMove(-SensorX, SensorY);
+        m_SensorX = SensorX;
+        m_SensorY = SensorY;
+        m_SensorZ = SensorZ;
+    }
+
+    public Vector3 GetSensorRotate()
+    {
+        Vector3 rot = new Vector3(m_SensorX, m_SensorY, m_SensorZ);
+        return rot;
     }
 
     // Androidから再描画命令を受けた時
@@ -67,9 +91,10 @@ public class App
     // ここが安定して動いているとは思わないでください。
     public void Draw()
     {
-        Stage.Draw();
-
-        Player.Draw();
+        if(m_nowScene != null)
+        {
+            m_nowScene.Draw();
+        }
     }
 
     // ホームボタンなどを押して裏側へ回った時

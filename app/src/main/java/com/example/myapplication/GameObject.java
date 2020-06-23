@@ -8,14 +8,11 @@ public class GameObject {
     protected  TYPE_ID m_type = TYPE_ID.NONE;
     protected boolean m_alive = true;
 
-    protected float m_posX;
-    protected float m_posY;
-
-    protected float m_moveX;
-    protected float m_moveY;
+    protected Vector3 m_Position = new Vector3();
+    protected Vector3 m_Velocity = new Vector3();
 
     protected Rect m_hitArea = new Rect();
-    protected String m_imageName = "Sprites/ball.png";
+    protected String m_imageName = "";
 
     //====================値渡し関数====================
     public void SetTag(TYPE_ID tag)
@@ -28,16 +25,18 @@ public class GameObject {
         return m_type;
     }
 
-    public void SetPos(int x, int y)
+    public void SetPos(float x, float y, float z)
     {
-        m_posX = x;
-        m_posY = y;
+        m_Position.x = x;
+        m_Position.y = y;
+        m_Position.z = z;
     }
 
-    public void SetMove(float x, float y)
+    public void SetMove(float x, float y, float z)
     {
-        m_moveX = x;
-        m_moveY = y;
+        m_Velocity.x = x;
+        m_Velocity.y = y;
+        m_Velocity.z = z;
     }
 
     public void SetCollisionRect(int right, int bottom)
@@ -52,10 +51,10 @@ public class GameObject {
     {
         Rect hitRect = new Rect();
 
-        hitRect.left = m_hitArea.left + (int)m_posX;
-        hitRect.right = m_hitArea.right + (int)m_posX;
-        hitRect.top = m_hitArea.top + (int)m_posY;
-        hitRect.bottom = m_hitArea.bottom + (int)m_posY;
+        hitRect.left = m_hitArea.left + (int)m_Position.x;
+        hitRect.right = m_hitArea.right + (int)m_Position.x;
+        hitRect.top = m_hitArea.top + (int)m_Position.y;
+        hitRect.bottom = m_hitArea.bottom + (int)m_Position.y;
 
         return hitRect;
     }
@@ -83,7 +82,7 @@ public class GameObject {
 
     public void Draw()
     {
-        App.Get().ImageMgr().Draw(m_imageName, m_posX, m_posY);
+        App.Get().ImageMgr().Draw(m_imageName, m_Position.x, m_Position.y);
     }
 
     public void CollisionCheck(Rect a_hitArea){}

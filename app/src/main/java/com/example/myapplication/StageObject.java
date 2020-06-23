@@ -1,9 +1,16 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Rect;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public class StageObject extends GameObject {
 
@@ -19,7 +26,7 @@ public class StageObject extends GameObject {
             for (int x = 0; x < Map_W; x++) {
                 Blocks[x][y] = new GameObject();
                 Blocks[x][y].Init();
-                Blocks[x][y].SetPos((x * 128) + 64,(y * 128) + 64);
+                Blocks[x][y].SetPos((x * 128) + 64,(y * 128) + 64, 0);
                 Blocks[x][y].SetCollisionRect(128, 128);
                 if(x == 0 | y == 0){
                     Blocks[x][y].SetImageName("Sprites/Wall.png");
@@ -63,5 +70,9 @@ public class StageObject extends GameObject {
                 Blocks[x][y].Draw();
             }
         }
+    }
+
+    private void LoadMap(String _FileName){
+        
     }
 }
