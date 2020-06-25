@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.icu.text.CaseMap;
 
@@ -21,6 +22,8 @@ public class App
     float m_SensorY = 0.0f;
     float m_SensorZ = 0.0f;
 
+    Context m_context;
+
     //シーン
     private SceneBase m_nowScene = null;
     public void ChangeScene(SceneBase scene)
@@ -35,9 +38,9 @@ public class App
     // 諸々の初期化は終わっているので、ここでロードをかけてもOK
     public void Start()
     {
-        soundManager.PlayBGM("Sounds/bgm.mp3");
-        se1 = soundManager.LoadSE("Sounds/se1.mp3");
-        se2 = soundManager.LoadSE("Sounds/se2.mp3");
+        //soundManager.PlayBGM("Sounds/bgm.mp3");
+        //se1 = soundManager.LoadSE("Sounds/se1.mp3");
+        //se2 = soundManager.LoadSE("Sounds/se2.mp3");
 
         m_nowScene = new Title();
         if(m_nowScene != null)
@@ -80,8 +83,18 @@ public class App
 
     public Vector3 GetSensorRotate()
     {
-        Vector3 rot = new Vector3(m_SensorX, m_SensorY, m_SensorZ);
+        Vector3 rot = new Vector3(-m_SensorX, m_SensorY, m_SensorZ);
         return rot;
+    }
+
+    public void SetContext(Context a_context)
+    {
+        m_context = a_context;
+    }
+
+    public final Context GetContext()
+    {
+        return m_context;
     }
 
     // Androidから再描画命令を受けた時
@@ -100,13 +113,13 @@ public class App
     // ホームボタンなどを押して裏側へ回った時
     public void Suspend()
     {
-        soundManager.StopBGM();
+        //soundManager.StopBGM();
     }
 
     // 再度アクティブになった時
     public void Resume()
     {
-        soundManager.PlayBGM("Sounds/bgm.mp3");
+        //soundManager.PlayBGM("Sounds/bgm.mp3");
     }
 
     // <--------------------------------------------------ゲームの実装

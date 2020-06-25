@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
                 |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;  // アプリ優先モード(上下のスワイプが無い限りフルスクリーンを続行し、しばらくしたらフルスクリーンに戻る)
         getWindow().getDecorView().setSystemUiVisibility(uiOptions); // 現在の画面(このアプリ)に設定
 
+        App.Get().SetContext(getApplicationContext());
 
         // ゲームの開始
         v.start();
